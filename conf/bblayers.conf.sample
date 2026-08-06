@@ -1,0 +1,14 @@
+LCONF_VERSION = "8"
+
+# Update <YOCTO_DIR> to your local Yocto sources path.
+# Typical layers are shown for Poky + meta-openembedded + meta-raspberrypi.
+BBLAYERS ?= " \
+	<YOCTO_DIR>/poky/meta \
+	<YOCTO_DIR>/poky/meta-poky \
+	<YOCTO_DIR>/poky/meta-yocto-bsp \
+	<YOCTO_DIR>/meta-openembedded/meta-oe \
+	<YOCTO_DIR>/meta-openembedded/meta-python \
+	<YOCTO_DIR>/meta-openembedded/meta-networking \
+	<YOCTO_DIR>/meta-raspberrypi \
+	<REPO_DIR>/meta-rpi-camera \
+"

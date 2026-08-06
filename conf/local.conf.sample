@@ -1,0 +1,13 @@
+MACHINE ??= "raspberrypi4-64"
+DISTRO ?= "poky"
+PACKAGE_CLASSES ?= "package_rpm"
+
+# Keep milestone-1 image simple and accessible for bring-up.
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-openssh"
+
+# Build output format that is convenient for SD card flashing.
+IMAGE_FSTYPES += "wic.bz2"
+
+USER_CLASSES ?= "buildstats"
+PATCHRESOLVE = "noop"
+CONF_VERSION = "2"
