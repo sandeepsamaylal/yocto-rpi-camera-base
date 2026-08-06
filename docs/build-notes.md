@@ -12,19 +12,28 @@ This repository is for a minimal Raspberry Pi 4 Yocto image bring-up.
 ## Prerequisites
 
 - Ubuntu host with Yocto build dependencies installed.
-- Yocto source tree (poky), meta-raspberrypi, and meta-openembedded.
 - This repository cloned locally.
+
+## Initialize Yocto Submodules
+
+This repository uses Git submodules under `sources/` for:
+
+- poky
+- meta-openembedded
+- meta-raspberrypi
+
+Run:
+
+- `git submodule update --init --recursive`
 
 ## Configure Build Directory
 
-1. Initialize Yocto build environment from poky:
-   - `source <YOCTO_DIR>/poky/oe-init-build-env <BUILD_DIR>`
-2. Copy sample configs into `<BUILD_DIR>/conf/`:
-   - `cp <REPO_DIR>/conf/local.conf.sample <BUILD_DIR>/conf/local.conf`
-   - `cp <REPO_DIR>/conf/bblayers.conf.sample <BUILD_DIR>/conf/bblayers.conf`
-3. Edit placeholders in `bblayers.conf`:
-   - Replace `<YOCTO_DIR>` with your local Yocto source path.
-   - Replace `<REPO_DIR>` with this repository path.
+1. Build using the helper script (defaults to `sources/` layout):
+   - `./scripts/build.sh`
+2. Optional: specify build directory name:
+   - `./scripts/build.sh build-rpi4`
+3. Optional: use external Yocto sources path instead of submodules:
+   - `./scripts/build.sh <YOCTO_DIR> [BUILD_DIR]`
 
 ## Build
 

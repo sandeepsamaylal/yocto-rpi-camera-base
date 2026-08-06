@@ -35,6 +35,22 @@ This repository is intentionally limited to the base Yocto structure and a minim
 3. Verify basic networking.
 4. Verify SSH access.
 
+## Yocto Source Layout
+
+This repository is set up to use Git submodules under `sources/` for Yocto dependencies:
+
+- `sources/poky`
+- `sources/meta-openembedded`
+- `sources/meta-raspberrypi`
+
+Initialize them after clone:
+
+- `git submodule update --init --recursive`
+
+Pinned revision details are tracked in:
+
+- `docs/submodule-locks.md`
+
 ## Repository Layout
 
 ```text
