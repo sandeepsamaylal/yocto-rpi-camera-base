@@ -51,6 +51,16 @@ Pinned revision details are tracked in:
 
 - `docs/submodule-locks.md`
 
+## Containerized Build
+
+Build with Docker (no extra Yocto package setup on host):
+
+- `./scripts/docker-build.sh`
+
+Detailed workflow:
+
+- `docs/docker-build.md`
+
 ## Repository Layout
 
 ```text

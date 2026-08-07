@@ -39,6 +39,12 @@ Run:
 
 - `bitbake rpi-camera-base-image`
 
+## Build in Docker (Alternative)
+
+- `./scripts/docker-build.sh`
+
+See `docs/docker-build.md` for details.
+
 ## Flash and Boot
 
 - Use the generated `.wic.bz2` image from `tmp/deploy/images/raspberrypi4-64/`.

@@ -1,0 +1,20 @@
+services:
+  yocto-builder:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        USER_UID: "${HOST_UID:-1000}"
+        USER_GID: "${HOST_GID:-1000}"
+    image: yocto-rpi-camera-builder:scarthgap
+    container_name: yocto-rpi-camera-builder
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+    volumes:
+      - .:/workspace
+      - ./cache/downloads:/workspace/cache/downloads
+      - ./cache/sstate-cache:/workspace/cache/sstate-cache

@@ -8,6 +8,10 @@ EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-openssh"
 # Build output format that is convenient for SD card flashing.
 IMAGE_FSTYPES += "wic.bz2"
 
+# Shared caches reduce rebuild time, especially in containerized builds.
+DL_DIR ?= "${TOPDIR}/../cache/downloads"
+SSTATE_DIR ?= "${TOPDIR}/../cache/sstate-cache"
+
 USER_CLASSES ?= "buildstats"
 PATCHRESOLVE = "noop"
 CONF_VERSION = "2"
