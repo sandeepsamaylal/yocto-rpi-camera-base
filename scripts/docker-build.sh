@@ -24,6 +24,8 @@ if [[ ! -f conf/local.conf.sample ]]; then
 fi
 
 echo "Building docker image and launching Yocto build..."
+docker compose build yocto-builder
+
 compose_cmd=(docker compose run --rm)
 
 if [[ -n "${SSH_AUTH_SOCK:-}" && -S "${SSH_AUTH_SOCK}" ]]; then
