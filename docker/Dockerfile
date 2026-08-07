@@ -42,11 +42,19 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
-RUN groupadd --gid ${USER_GID} ${USER_NAME} \
-    && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USER_NAME} \
+RUN if ! getent group "${USER_GID}" >/dev/null; then \
+        groupadd --gid "${USER_GID}" "${USER_NAME}"; \
+    fi \
+    && if ! id -u "${USER_NAME}" >/dev/null 2>&1; then \
+        if getent passwd "${USER_UID}" >/dev/null; then \
+            useradd --uid "${USER_UID}" --gid "${USER_GID}" -o -m -s /bin/bash "${USER_NAME}"; \
+        else \
+            useradd --uid "${USER_UID}" --gid "${USER_GID}" -m -s /bin/bash "${USER_NAME}"; \
+        fi; \
+    fi \
     && mkdir -p /home/${USER_NAME}/.ssh \
     && chmod 700 /home/${USER_NAME}/.ssh \
-    && chown -R ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.ssh \
+    && chown -R ${USER_NAME}:${USER_GID} /home/${USER_NAME}/.ssh \
     && echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER_NAME}
 
 ENV TEMPLATECONF=

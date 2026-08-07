@@ -11,6 +11,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEFAULT_YOCTO_DIR="${REPO_DIR}/sources"
+SYNC_CONF="${SYNC_CONF:-1}"
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     echo "Usage: $0 [BUILD_DIR]"
@@ -52,13 +53,12 @@ set +u
 source "${YOCTO_DIR}/poky/oe-init-build-env" "${BUILD_DIR}"
 set -u
 
-if [[ ! -f conf/local.conf ]]; then
+if [[ "${SYNC_CONF}" == "1" ]]; then
     cp "${REPO_DIR}/conf/local.conf.sample" conf/local.conf
-fi
-
-if [[ ! -f conf/bblayers.conf ]]; then
     cp "${REPO_DIR}/conf/bblayers.conf.sample" conf/bblayers.conf
     sed -i "s|<REPO_DIR>|${REPO_DIR}|g" conf/bblayers.conf
+else
+    echo "SYNC_CONF=0 detected, keeping existing conf/local.conf and conf/bblayers.conf"
 fi
 
 echo "Building rpi-camera-base-image..."

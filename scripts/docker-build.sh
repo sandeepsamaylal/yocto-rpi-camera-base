@@ -15,6 +15,13 @@ export HOST_GID="$(id -g)"
 
 mkdir -p "${REPO_DIR}/cache/downloads" "${REPO_DIR}/cache/sstate-cache"
 
+if [[ ! -w "${REPO_DIR}/cache/downloads" || ! -w "${REPO_DIR}/cache/sstate-cache" ]]; then
+    echo "Error: cache directories are not writable by $(id -un)."
+    echo "Run this once on host and retry:"
+    echo "  sudo chown -R $(id -u):$(id -g) ${REPO_DIR}/cache"
+    exit 1
+fi
+
 cd "${REPO_DIR}"
 
 # Use cached downloads and sstate inside the workspace-mounted build directory.

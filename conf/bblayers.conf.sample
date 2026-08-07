@@ -1,4 +1,4 @@
-LCONF_VERSION = "8"
+LCONF_VERSION = "7"
 
 # Submodule-first layout under this repository.
 # <REPO_DIR> is replaced by scripts/build.sh when creating conf/bblayers.conf.
