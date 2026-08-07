@@ -43,7 +43,22 @@ To speed up repeated builds, these host directories are mounted into the contain
 
 ## Open an Interactive Builder Shell
 
-- `HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose run --rm yocto-builder bash`
+- `./scripts/docker-run.sh`
+
+Run a one-shot command in the same container context:
+
+- `./scripts/docker-run.sh bitbake-layers show-layers`
+
+## Generate SDK in Docker
+
+- Standard SDK:
+   - `./scripts/docker-sdk.sh`
+- Extensible SDK:
+   - `./scripts/docker-sdk.sh --ext`
+
+SDK output directory:
+
+- `build-rpi4/tmp/deploy/sdk`
 
 For SSH agent forwarding in an interactive shell:
 
