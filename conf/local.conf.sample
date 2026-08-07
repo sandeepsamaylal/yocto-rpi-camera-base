@@ -12,6 +12,9 @@ IMAGE_FSTYPES += "wic.bz2"
 DL_DIR ?= "${TOPDIR}/../cache/downloads"
 SSTATE_DIR ?= "${TOPDIR}/../cache/sstate-cache"
 
+# Required by meta-raspberrypi firmware package selection on raspberrypi4-64.
+LICENSE_FLAGS_ACCEPTED += "synaptics-killswitch"
+
 USER_CLASSES ?= "buildstats"
 PATCHRESOLVE = "noop"
 CONF_VERSION = "2"
