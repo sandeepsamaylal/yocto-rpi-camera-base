@@ -24,6 +24,11 @@ Optional build directory name:
 
 - `./scripts/docker-build.sh build-rpi4`
 
+If you need Git over SSH (for private repos), load your key on host first:
+
+- `eval "$(ssh-agent -s)"`
+- `ssh-add ~/.ssh/id_ed25519`
+
 This uses:
 
 - `docker/Dockerfile`
@@ -40,9 +45,17 @@ To speed up repeated builds, these host directories are mounted into the contain
 
 - `HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose run --rm yocto-builder bash`
 
+For SSH agent forwarding in an interactive shell:
+
+- `HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose run --rm -e SSH_AUTH_SOCK=/ssh-agent -v $SSH_AUTH_SOCK:/ssh-agent -v ~/.ssh/known_hosts:/home/builder/.ssh/known_hosts:ro yocto-builder bash`
+
 Inside the container, you can run:
 
 - `./scripts/build.sh`
+
+To verify agent forwarding:
+
+- `ssh-add -l`
 
 ## Notes
 

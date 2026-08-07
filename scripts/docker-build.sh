@@ -24,6 +24,18 @@ if [[ ! -f conf/local.conf.sample ]]; then
 fi
 
 echo "Building docker image and launching Yocto build..."
-docker compose run --rm yocto-builder bash -lc "
+compose_cmd=(docker compose run --rm)
+
+if [[ -n "${SSH_AUTH_SOCK:-}" && -S "${SSH_AUTH_SOCK}" ]]; then
+    echo "Forwarding host SSH agent into container."
+    compose_cmd+=(-e "SSH_AUTH_SOCK=/ssh-agent")
+    compose_cmd+=(-v "${SSH_AUTH_SOCK}:/ssh-agent")
+fi
+
+if [[ -f "${HOME}/.ssh/known_hosts" ]]; then
+    compose_cmd+=(-v "${HOME}/.ssh/known_hosts:/home/builder/.ssh/known_hosts:ro")
+fi
+
+"${compose_cmd[@]}" yocto-builder bash -lc "
     ./scripts/build.sh ${BUILD_DIR}
 "

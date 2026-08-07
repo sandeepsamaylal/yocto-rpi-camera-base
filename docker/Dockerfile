@@ -44,6 +44,9 @@ ENV LC_ALL=en_US.UTF-8
 
 RUN groupadd --gid ${USER_GID} ${USER_NAME} \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USER_NAME} \
+    && mkdir -p /home/${USER_NAME}/.ssh \
+    && chmod 700 /home/${USER_NAME}/.ssh \
+    && chown -R ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.ssh \
     && echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER_NAME}
 
 ENV TEMPLATECONF=

@@ -57,6 +57,8 @@ Build with Docker (no extra Yocto package setup on host):
 
 - `./scripts/docker-build.sh`
 
+If private Git over SSH is needed, start `ssh-agent` and load a key on host before running the script.
+
 Detailed workflow:
 
 - `docs/docker-build.md`
