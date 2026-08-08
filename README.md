@@ -35,6 +35,12 @@ This repository is intentionally limited to the base Yocto structure and a minim
 3. Verify basic networking.
 4. Verify SSH access.
 
+## Camera Bring-Up Packages
+
+Camera packagegroup support is enabled by default.
+
+- Disable in `conf/local.conf` if needed: `RPI_CAMERA_SUPPORT = "0"`
+
 ## Yocto Source Layout
 
 This repository is set up to use Git submodules under `sources/` for Yocto dependencies:

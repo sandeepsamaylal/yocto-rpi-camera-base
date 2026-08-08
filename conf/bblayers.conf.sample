@@ -9,6 +9,7 @@ BBLAYERS ?= " \
 	<REPO_DIR>/sources/meta-openembedded/meta-oe \
 	<REPO_DIR>/sources/meta-openembedded/meta-python \
 	<REPO_DIR>/sources/meta-openembedded/meta-networking \
+	<REPO_DIR>/sources/meta-openembedded/meta-multimedia \
 	<REPO_DIR>/sources/meta-raspberrypi \
 	<REPO_DIR>/meta-rpi-camera \
 "

@@ -15,6 +15,10 @@ SSTATE_DIR ?= "${TOPDIR}/../cache/sstate-cache"
 # Required by meta-raspberrypi firmware package selection on raspberrypi4-64.
 LICENSE_FLAGS_ACCEPTED += "synaptics-killswitch"
 
+# Camera packagegroup is enabled by default for this project.
+# Set to "0" to build a smaller base-only image.
+RPI_CAMERA_SUPPORT ?= "1"
+
 USER_CLASSES ?= "buildstats"
 PATCHRESOLVE = "noop"
 CONF_VERSION = "2"

@@ -45,6 +45,17 @@ Run:
 
 See `docs/docker-build.md` for details.
 
+## Camera Support
+
+Camera userspace packages are enabled by default via `RPI_CAMERA_SUPPORT`.
+
+To disable camera packages for a smaller base-only image:
+
+1. In `conf/local.conf`, set:
+   - `RPI_CAMERA_SUPPORT = "0"`
+2. Rebuild image:
+   - `bitbake rpi-camera-base-image`
+
 ## Flash and Boot
 
 - Use the generated `.wic.bz2` image from `tmp/deploy/images/raspberrypi4-64/`.
