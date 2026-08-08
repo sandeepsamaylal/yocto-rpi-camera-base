@@ -26,7 +26,7 @@ RASPBERRYPI_CAMERA_V2 = "1"
 
 # Optional application package from rpi-camera-rtsp-mqtt-app repository.
 # Set to "1" after the app repository contains buildable sources.
-RPI_CAMERA_APP ?= "0"
+RPI_CAMERA_APP ?= "1"
 
 # Optional source revision override for the camera application recipe.
 # Set to a full git commit hash for reproducible builds when RPI_CAMERA_APP = "1".
