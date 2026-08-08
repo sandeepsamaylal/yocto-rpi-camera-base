@@ -48,6 +48,10 @@ See `docs/docker-build.md` for details.
 ## Camera Support
 
 Camera userspace packages are enabled by default via `RPI_CAMERA_SUPPORT`.
+The sample config also enables Raspberry Pi camera firmware support for Camera Module V2.1:
+
+- `VIDEO_CAMERA = "1"`
+- `RASPBERRYPI_CAMERA_V2 = "1"`
 
 To disable camera packages for a smaller base-only image:
 
@@ -55,6 +59,22 @@ To disable camera packages for a smaller base-only image:
    - `RPI_CAMERA_SUPPORT = "0"`
 2. Rebuild image:
    - `bitbake rpi-camera-base-image`
+
+## Optional Camera Application Package
+
+The repository supports an optional application package recipe for:
+
+- `rpi-camera-rtsp-mqtt-app`
+
+Enable it only after the app repository has buildable sources (for example, `CMakeLists.txt` and source files):
+
+1. In `conf/local.conf`, set:
+   - `RPI_CAMERA_APP = "1"`
+   - `RPI_CAMERA_APP_SRCREV = "<full-git-commit-hash>"`
+2. Rebuild image:
+   - `bitbake rpi-camera-base-image`
+
+Use a fixed commit hash for `RPI_CAMERA_APP_SRCREV` to keep builds reproducible.
 
 ## Flash and Boot
 

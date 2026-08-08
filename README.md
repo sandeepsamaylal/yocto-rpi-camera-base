@@ -41,6 +41,11 @@ Camera packagegroup support is enabled by default.
 
 - Disable in `conf/local.conf` if needed: `RPI_CAMERA_SUPPORT = "0"`
 
+Optional external app package integration is available via:
+
+- `RPI_CAMERA_APP = "1"` (after app sources are buildable)
+- `RPI_CAMERA_APP_SRCREV = "<full-git-commit-hash>"` for reproducible app builds
+
 ## Yocto Source Layout
 
 This repository is set up to use Git submodules under `sources/` for Yocto dependencies:
@@ -68,6 +73,20 @@ If private Git over SSH is needed, start `ssh-agent` and load a key on host befo
 Detailed workflow:
 
 - `docs/docker-build.md`
+
+## Flash Image to SD Card
+
+Use the helper script to flash the latest built image to an SD card.
+
+- Auto-detect latest image artifact and flash:
+    - `./scripts/flash-sd.sh --device /dev/sdX`
+- Specify build directory explicitly:
+    - `./scripts/flash-sd.sh build-rpi4 --device /dev/sdX`
+- Use a specific artifact path:
+    - `./scripts/flash-sd.sh --device /dev/sdX --artifact build-rpi4/tmp/deploy/images/raspberrypi4-64/rpi-camera-base-image-raspberrypi4-64.rootfs.wic.bz2`
+
+The script supports `.wic`, `.wic.bz2`, and `.wic.gz` artifacts and requires typing `flash` before writing.
+Double-check the target device path (`/dev/sdX`) because all data on that disk will be erased.
 
 ## Repository Layout
 
