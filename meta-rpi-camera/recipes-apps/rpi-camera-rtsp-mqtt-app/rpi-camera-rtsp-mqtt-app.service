@@ -1,0 +1,14 @@
+[Unit]
+Description=Raspberry Pi Camera MQTT Control Application
+Wants=network-online.target mosquitto.service
+After=network-online.target mosquitto.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/rpi-camera-rtsp-mqtt-app
+ExecStart=/usr/bin/rpi-camera-rtsp-mqtt-app-launcher
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
