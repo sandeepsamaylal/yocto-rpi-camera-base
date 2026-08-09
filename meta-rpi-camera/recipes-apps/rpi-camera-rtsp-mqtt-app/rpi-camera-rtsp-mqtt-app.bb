@@ -4,6 +4,8 @@ HOMEPAGE = "https://github.com/sandeepsamaylal/rpi-camera-rtsp-mqtt-app"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=eb1e9f7632353a33a427954331fbacfe"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
 # Pin SRCREV to a fixed commit for reproducible builds once app development stabilizes.
 SRC_URI = "git://github.com/sandeepsamaylal/rpi-camera-rtsp-mqtt-app.git;branch=main;protocol=https \
 		   file://rpi-camera-rtsp-mqtt-app.service \
