@@ -1,0 +1,7 @@
+# RTSP relay defaults
+# The camera app should stream H264 to RTSP_UDP_PORT on localhost.
+
+RTSP_PORT=8554
+RTSP_MOUNT=/camera
+RTSP_UDP_PORT=5600
+RTSP_FRAMERATE=30

@@ -87,6 +87,21 @@ For Sprint-3 streaming work, you can include GStreamer RTSP runtime packages.
 
 Set `RPI_RTSP_SUPPORT = "0"` if you want a smaller image without RTSP dependencies.
 
+When enabled, the image also includes and auto-starts a local RTSP relay service:
+
+- Service: `rpi-camera-rtsp-relay`
+- RTSP URL: `rtsp://<pi-ip>:8554/camera`
+- Upstream source expected by relay: `udp://127.0.0.1:5600`
+
+Verification on target:
+
+- `systemctl status rpi-camera-rtsp-relay`
+- `journalctl -u rpi-camera-rtsp-relay -n 100 --no-pager`
+
+Override relay defaults in:
+
+- `/etc/default/rpi-camera-rtsp-relay`
+
 ## Optional MQTT Runtime Packages
 
 For Sprint-2 control/status integration, you can include MQTT runtime packages.

@@ -1,0 +1,14 @@
+[Unit]
+Description=Raspberry Pi Camera RTSP Relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/rpi-camera-rtsp-relay
+ExecStart=/usr/bin/rpi-camera-rtsp-relay
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

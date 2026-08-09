@@ -1,12 +1,14 @@
 # Runtime defaults for rpi-camera-rtsp-mqtt-app systemd service
-# Adjust VIDEO_HOST to your viewer host IP on the same LAN.
+# Set RTSP_HOST to the Raspberry Pi IP or hostname clients should use.
 
 MQTT_HOST=127.0.0.1
 MQTT_PORT=1883
 MQTT_BASE_TOPIC=camera/pi4-01
-VIDEO_HOST=127.0.0.1
-VIDEO_PORT=5600
+RTSP_HOST=127.0.0.1
+RTSP_PORT=8554
+RTSP_PATH=/camera
 WIDTH=1280
 HEIGHT=720
-FRAMERATE=30
-INTRA_PERIOD=30
+FRAMERATE=25
+BITRATE=1200000
+INTRA_PERIOD=15
