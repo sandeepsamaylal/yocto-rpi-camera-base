@@ -46,6 +46,16 @@ Optional external app package integration is available via:
 - `RPI_CAMERA_APP = "1"` (after app sources are buildable)
 - `RPI_CAMERA_APP_SRCREV = "<full-git-commit-hash>"` for reproducible app builds
 
+Optional GStreamer RTSP runtime package support is available via:
+
+- `RPI_RTSP_SUPPORT = "1"` to include RTSP-related GStreamer packages
+- `RPI_RTSP_SUPPORT = "0"` to disable RTSP packages for smaller milestone images
+
+Optional MQTT runtime package support is available via:
+
+- `RPI_MQTT_SUPPORT = "1"` to include Mosquitto broker, CLI clients, and runtime libs
+- `RPI_MQTT_SUPPORT = "0"` to disable MQTT packages for smaller milestone images
+
 ## Yocto Source Layout
 
 This repository is set up to use Git submodules under `sources/` for Yocto dependencies:
@@ -84,6 +94,8 @@ Use the helper script to flash the latest built image to an SD card.
     - `./scripts/flash-sd.sh build-rpi4 --device /dev/sdX`
 - Use a specific artifact path:
     - `./scripts/flash-sd.sh --device /dev/sdX --artifact build-rpi4/tmp/deploy/images/raspberrypi4-64/rpi-camera-base-image-raspberrypi4-64.rootfs.wic.bz2`
+- Flash and try to eject/power off USB SD reader after completion:
+    - `./scripts/flash-sd.sh --device /dev/sdX --eject`
 
 The script supports `.wic`, `.wic.bz2`, and `.wic.gz` artifacts and requires typing `flash` before writing.
 Double-check the target device path (`/dev/sdX`) because all data on that disk will be erased.

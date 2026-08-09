@@ -17,4 +17,4 @@ S = "${WORKDIR}/git"
 inherit cmake pkgconfig
 
 DEPENDS += "libcamera"
-RDEPENDS:${PN} += "libcamera v4l-utils"
+RDEPENDS:${PN} += "libcamera libcamera-apps"

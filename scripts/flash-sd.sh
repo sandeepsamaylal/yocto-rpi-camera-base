@@ -7,6 +7,7 @@ set -euo pipefail
 #   ./scripts/flash-sd.sh --device /dev/mmcblk0 --machine raspberrypi4-64
 #   ./scripts/flash-sd.sh --device /dev/sdX --artifact /path/to/image.wic.bz2
 #   ./scripts/flash-sd.sh --device /dev/sdX --yes
+#   ./scripts/flash-sd.sh --device /dev/sdX --eject
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="build-rpi4"
@@ -15,25 +16,28 @@ IMAGE_NAME="rpi-camera-base-image"
 DEVICE=""
 ARTIFACT=""
 ASSUME_YES=0
+EJECT_AFTER_FLASH=0
 
 usage() {
-    cat <<EOF
-Usage: $0 [BUILD_DIR] --device <disk> [options]
+        cat <<'EOF'
+Usage: ./scripts/flash-sd.sh [BUILD_DIR] --device <disk> [options]
 
 Options:
-  --device <disk>      Target block device, e.g. /dev/sdb or /dev/mmcblk0 (required)
-  --artifact <path>    Image artifact path (.wic, .wic.bz2, .wic.gz). If omitted, newest matching
-                       artifact from build deploy directory is selected automatically.
-  --machine <machine>  Machine name used to locate deploy artifacts (default: raspberrypi4-64)
-  --image <name>       Image recipe name prefix (default: rpi-camera-base-image)
-  --yes                Skip confirmation prompt.
-  -h, --help           Show this help message.
+    --device <disk>      Target block device, e.g. /dev/sdb or /dev/mmcblk0 (required)
+    --artifact <path>    Image artifact path (.wic, .wic.bz2, .wic.gz). If omitted, newest matching
+                                             artifact from build deploy directory is selected automatically.
+    --machine <machine>  Machine name used to locate deploy artifacts (default: raspberrypi4-64)
+    --image <name>       Image recipe name prefix (default: rpi-camera-base-image)
+    --eject              Power off/eject device after successful flashing (best effort).
+    --yes                Skip confirmation prompt.
+    -h, --help           Show this help message.
 
 Examples:
-  $0 --device /dev/sdb
-  $0 build-rpi4 --device /dev/sdb
-  $0 --device /dev/mmcblk0 --machine raspberrypi4-64
-  $0 --device /dev/sdb --artifact build-rpi4/tmp/deploy/images/raspberrypi4-64/rpi-camera-base-image-raspberrypi4-64.rootfs.wic.bz2
+    ./scripts/flash-sd.sh --device /dev/sdb
+    ./scripts/flash-sd.sh build-rpi4 --device /dev/sdb
+    ./scripts/flash-sd.sh --device /dev/mmcblk0 --machine raspberrypi4-64
+    ./scripts/flash-sd.sh --device /dev/sdb --artifact build-rpi4/tmp/deploy/images/raspberrypi4-64/rpi-camera-base-image-raspberrypi4-64.rootfs.wic.bz2
+    ./scripts/flash-sd.sh --device /dev/sdb --eject
 EOF
 }
 
@@ -77,6 +81,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --yes)
             ASSUME_YES=1
+            shift
+            ;;
+        --eject)
+            EJECT_AFTER_FLASH=1
             shift
             ;;
         --*)
@@ -212,6 +220,40 @@ esac
 
 sync
 sudo partprobe "${DEVICE}" >/dev/null 2>&1 || true
+
+if [[ ${EJECT_AFTER_FLASH} -eq 1 ]]; then
+    echo "Attempting to eject/power off ${DEVICE}..."
+    if command -v udisksctl >/dev/null 2>&1; then
+        if udisksctl power-off -b "${DEVICE}" >/dev/null 2>&1; then
+            echo "Device powered off via udisksctl: ${DEVICE}"
+        elif sudo -n udisksctl power-off -b "${DEVICE}" >/dev/null 2>&1; then
+            echo "Device powered off via udisksctl (sudo): ${DEVICE}"
+        else
+            echo "udisksctl power-off failed for ${DEVICE}; trying eject..."
+            if command -v eject >/dev/null 2>&1; then
+                if eject "${DEVICE}" >/dev/null 2>&1; then
+                    echo "Device ejected: ${DEVICE}"
+                elif sudo -n eject "${DEVICE}" >/dev/null 2>&1; then
+                    echo "Device ejected via sudo: ${DEVICE}"
+                else
+                    echo "Warning: could not eject ${DEVICE}. You can remove it manually after ensuring writes are complete."
+                fi
+            else
+                echo "Warning: eject command not found. Remove device manually after ensuring writes are complete."
+            fi
+        fi
+    elif command -v eject >/dev/null 2>&1; then
+        if eject "${DEVICE}" >/dev/null 2>&1; then
+            echo "Device ejected: ${DEVICE}"
+        elif sudo -n eject "${DEVICE}" >/dev/null 2>&1; then
+            echo "Device ejected via sudo: ${DEVICE}"
+        else
+            echo "Warning: could not eject ${DEVICE}. You can remove it manually after ensuring writes are complete."
+        fi
+    else
+        echo "Warning: neither udisksctl nor eject is available. Remove device manually after ensuring writes are complete."
+    fi
+fi
 
 echo ""
 echo "Flash complete: ${DEVICE}"

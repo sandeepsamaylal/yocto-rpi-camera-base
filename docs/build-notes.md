@@ -76,6 +76,31 @@ Enable it only after the app repository has buildable sources (for example, `CMa
 
 Use a fixed commit hash for `RPI_CAMERA_APP_SRCREV` to keep builds reproducible.
 
+## Optional RTSP Runtime Packages
+
+For Sprint-3 streaming work, you can include GStreamer RTSP runtime packages.
+
+1. In `conf/local.conf`, set:
+   - `RPI_RTSP_SUPPORT = "1"`
+2. Rebuild image:
+   - `bitbake rpi-camera-base-image`
+
+Set `RPI_RTSP_SUPPORT = "0"` if you want a smaller image without RTSP dependencies.
+
+## Optional MQTT Runtime Packages
+
+For Sprint-2 control/status integration, you can include MQTT runtime packages.
+
+1. In `conf/local.conf`, set:
+   - `RPI_MQTT_SUPPORT = "1"`
+2. Rebuild image:
+   - `bitbake rpi-camera-base-image`
+
+Set `RPI_MQTT_SUPPORT = "0"` to disable MQTT dependencies.
+
+When MQTT support is enabled, Mosquitto is configured to auto-start at boot
+in the generated image (systemd service or SysV init, depending on init manager).
+
 ## Flash and Boot
 
 - Use the generated `.wic.bz2` image from `tmp/deploy/images/raspberrypi4-64/`.
