@@ -95,8 +95,12 @@ When enabled, the image also includes and auto-starts a local RTSP relay service
 
 Verification on target:
 
-- `systemctl status rpi-camera-rtsp-relay`
-- `journalctl -u rpi-camera-rtsp-relay -n 100 --no-pager`
+- Systemd images:
+   - `systemctl status rpi-camera-rtsp-relay`
+   - `journalctl -u rpi-camera-rtsp-relay -n 100 --no-pager`
+- SysV images:
+   - `service rpi-camera-rtsp-relay status`
+   - `netstat -ltn | grep 8554`
 
 Override relay defaults in:
 
@@ -115,6 +119,12 @@ Set `RPI_MQTT_SUPPORT = "0"` to disable MQTT dependencies.
 
 When MQTT support is enabled, Mosquitto is configured to auto-start at boot
 in the generated image (systemd service or SysV init, depending on init manager).
+
+For host-side MQTT control/status checks, use:
+
+- `./scripts/mqtt-camera.sh --host <pi-ip> start`
+- `./scripts/mqtt-camera.sh --host <pi-ip> state`
+- `./scripts/mqtt-camera.sh --host <pi-ip> stream-url`
 
 ## Flash and Boot
 

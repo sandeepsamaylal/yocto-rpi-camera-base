@@ -10,6 +10,8 @@ This repository is intentionally limited to the base Yocto structure and a minim
     - https://github.com/cu-ecen-aeld/final-project-sandeepsamaylal
 - Yocto base image repo (this repo):
     - https://github.com/sandeepsamaylal/yocto-rpi-camera-base
+- Camera app repo (RTSP/MQTT runtime app):
+    - https://github.com/sandeepsamaylal/rpi-camera-rtsp-mqtt-app
 
 ## Target Hardware
 
@@ -104,20 +106,42 @@ Double-check the target device path (`/dev/sdX`) because all data on that disk w
 
 ```text
 yocto-rpi-camera-base/
+├── LICENSE
 ├── README.md
 ├── conf/
-│   ├── local.conf.sample
-│   └── bblayers.conf.sample
+│   ├── bblayers.conf.sample
+│   └── local.conf.sample
+├── docker/
 ├── docs/
-│   └── build-notes.md
+│   ├── build-notes.md
+│   ├── docker-build.md
+│   └── submodule-locks.md
+├── meta-rpi-camera/
+│   ├── conf/
+│   │   └── layer.conf
+│   ├── recipes-apps/
+│   │   └── rpi-camera-rtsp-mqtt-app/
+│   ├── recipes-connectivity/
+│   │   └── mosquitto/
+│   ├── recipes-core/
+│   │   ├── images/
+│   │   │   └── rpi-camera-base-image.bb
+│   │   └── packagegroups/
+│   │       ├── packagegroup-rpi-camera-mqtt.bb
+│   │       ├── packagegroup-rpi-camera-rtsp.bb
+│   │       └── packagegroup-rpi-camera-support.bb
+│   └── recipes-multimedia/
+│       └── rpi-camera-rtsp-relay/
 ├── scripts/
-│   └── build.sh
-└── meta-rpi-camera/
-        ├── conf/
-        │   └── layer.conf
-        └── recipes-core/
-                ├── images/
-                │   └── rpi-camera-base-image.bb
-                └── packagegroups/
-                        └── packagegroup-rpi-camera-base.bb
+│   ├── build.sh
+│   ├── clean-build.sh
+│   ├── docker-build.sh
+│   ├── flash-sd.sh
+│   └── mqtt-camera.sh
+└── sources/
+    ├── poky/
+    ├── meta-openembedded/
+    └── meta-raspberrypi/
 ```
+
+Generated directories such as build-rpi4/ and cache/ are intentionally omitted.
