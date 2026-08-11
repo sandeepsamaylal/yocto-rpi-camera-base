@@ -30,7 +30,7 @@ RPI_CAMERA_APP ?= "1"
 
 # Optional source revision override for the camera application recipe.
 # Set to a full git commit hash for reproducible builds when RPI_CAMERA_APP = "1".
-RPI_CAMERA_APP_SRCREV ?= "bf62702b0b50da96ecd6ce92a9ff6b3a1b561b45"
+RPI_CAMERA_APP_SRCREV ?= "1d6bd450637dd17f45bbfa4aea53783fe60c1632"
 
 # Enable GStreamer RTSP runtime packages for streaming integration.
 # Set to "0" to keep the image smaller while developing non-RTSP milestones.
