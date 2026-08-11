@@ -29,7 +29,6 @@ int main(int argc, char *argv[]) {
 
     const int udp_port = env_int("RTSP_UDP_PORT", 5600);
     const int rtsp_port = env_int("RTSP_PORT", 8554);
-    const int framerate = env_int("RTSP_FRAMERATE", 30);
     const char *mount_path = env_str("RTSP_MOUNT", "/camera");
 
     gst_init(&argc, &argv);
@@ -40,10 +39,11 @@ int main(int argc, char *argv[]) {
     factory = gst_rtsp_media_factory_new();
 
     pipeline = g_strdup_printf(
-        "( udpsrc port=%d caps=\"video/x-h264,stream-format=(string)byte-stream,alignment=(string)au,framerate=(fraction)%d/1\" "
-        "! h264parse config-interval=-1 ! rtph264pay name=pay0 pt=96 )",
-        udp_port,
-        framerate);
+        "( udpsrc port=%d buffer-size=1048576 mtu=65535 caps=\"video/x-h264,stream-format=(string)byte-stream,alignment=(string)au\" "
+        "! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 "
+        "! h264parse config-interval=-1 disable-passthrough=true "
+        "! rtph264pay name=pay0 pt=96 config-interval=1 mtu=1200 )",
+        udp_port);
 
     gst_rtsp_media_factory_set_launch(factory, pipeline);
     gst_rtsp_media_factory_set_shared(factory, TRUE);

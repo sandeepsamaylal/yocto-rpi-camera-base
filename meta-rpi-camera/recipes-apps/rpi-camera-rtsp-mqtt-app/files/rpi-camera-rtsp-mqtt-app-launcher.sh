@@ -22,7 +22,7 @@ RTSP_PATH="${RTSP_PATH:-/camera}"
 WIDTH="${WIDTH:-1280}"
 HEIGHT="${HEIGHT:-720}"
 FRAMERATE="${FRAMERATE:-25}"
-BITRATE="${BITRATE:-1200000}"
+BITRATE="${BITRATE:-2000000}"
 INTRA_PERIOD="${INTRA_PERIOD:-15}"
 
 if "$APP_BIN" --help 2>&1 | grep -q -- "--intra-period"; then
